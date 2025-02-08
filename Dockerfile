@@ -1,5 +1,4 @@
-FROM ubuntu:16.04
-MAINTAINER José Domingo Muñoz
+FROM ubuntu:latest
 RUN apt-get update -y && apt-get install -y \
         apache2 \
         libapache2-mod-wsgi-py3 \
@@ -7,7 +6,7 @@ RUN apt-get update -y && apt-get install -y \
         && apt-get clean && rm -rf /var/lib/apt/lists/*
 ADD /tienda_videojuegos /var/www/html/tienda_videojuegos
 RUN chown www-data:www-data -R /var/www/html/tienda_videojuegos
-RUN pip3 install -r /var/www/html/tienda_videojuegos/requirements.txt
+RUN pip3 install --break-system-packages -r /var/www/html/tienda_videojuegos/requirements.txt
 ADD 000-default.conf /etc/apache2/sites-available/
 ADD app.wsgi /var/www/html/tienda_videojuegos
 RUN service apache2 restart
